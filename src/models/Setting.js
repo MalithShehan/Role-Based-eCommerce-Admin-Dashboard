@@ -1,12 +1,12 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const OrderItem = sequelize.define(
-    "OrderItem",
+  const Setting = sequelize.define(
+    "Setting",
     {
       id: {
         type: DataTypes.INTEGER,
-        primeryKey: true,
+        primaryKey: true,
         autoIncrement: true,
       },
       key: {
@@ -34,5 +34,5 @@ module.exports = (sequelize) => {
       timestamps: true,
     },
   );
-  return OrderItem;
+  return Setting;
 };
