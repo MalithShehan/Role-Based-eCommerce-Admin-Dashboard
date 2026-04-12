@@ -12,7 +12,7 @@ const getDashboardHandler = async (req, res, context) => {
             const totalOrders = await Order.count();
             const revenueResult = await Order.findOne({
                 attributes: [
-                    [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('totalAmount')), 0), 'totalRevenue']
+                    [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('total_amount')), 0), 'totalRevenue']
                 ],
                 raw: true,
             });
@@ -30,7 +30,7 @@ const getDashboardHandler = async (req, res, context) => {
                 include: [{ model: User, as: 'user', attributes: ['name', 'email'] }],
             });
 
-            return {
+            const result = {
                 message: `Welcome Back, ${currentAdmin.name}!`,
                 role: 'admin',
                 stats: {
@@ -49,11 +49,12 @@ const getDashboardHandler = async (req, res, context) => {
                     userName: o.user ? o.user.name : 'Unknown',
                 })),
             };
+            return result;
         } else {
             const userOrders = await Order.count({ where: { userId: currentAdmin.id } });
             const userRevenueResult = await Order.findOne({
                 attributes: [
-                    [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('totalAmount')), 0), 'totalSpent'],
+                    [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('total_amount')), 0), 'totalSpent'],
                 ],
                 where: { userId: currentAdmin.id },
                 raw: true,
@@ -69,6 +70,12 @@ const getDashboardHandler = async (req, res, context) => {
             return {
                 message: `Welcome Back, ${currentAdmin.name}!`,
                 role: 'user',
+                personalInfo: {
+                    name: currentAdmin.name,
+                    email: currentAdmin.email,
+                    role: currentAdmin.role,
+                    memberSince: currentAdmin.createdAt || null,
+                },
                 stats: {
                     totalOrders: userOrders,
                     totalSpent: totalSpent.toFixed(2),

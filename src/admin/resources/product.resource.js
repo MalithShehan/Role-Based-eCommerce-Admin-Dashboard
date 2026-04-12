@@ -21,6 +21,8 @@ const ProductResource = {
       stock: { position: 5 },
       categoryId: {
         position: 6,
+        reference: 'categories',
+        isVisible: { list: true, show: true, edit: true, filter: true },
       },
     },
     listProperties: ["id", "name", "price", "stock", "categoryId", "createdAt"],

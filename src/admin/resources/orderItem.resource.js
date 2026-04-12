@@ -10,9 +10,13 @@ const OrderItemResource = {
       },
       orderId: {
         position: 2,
+        reference: 'orders',
+        isVisible: { list: true, show: true, edit: true, filter: true },
       },
       productId: {
         position: 3,
+        reference: 'products',
+        isVisible: { list: true, show: true, edit: true, filter: true },
       },
       quantity: {
         position: 4,

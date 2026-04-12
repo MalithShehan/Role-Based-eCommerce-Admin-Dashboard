@@ -5,9 +5,12 @@ const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const bcrypt = require('bcryptjs');
 
+const path = require('path');
+
 const { sequelize, User } = require('./models');
 const { authenticate } = require('./admin/auth');
 const { getDashboardHandler } = require('./admin/dashboard');
+const { getSettingsHandler } = require('./admin/settings');
 
 // Resource configs
 const UserResource = require('./admin/resources/user.resource');
@@ -31,14 +34,16 @@ const start = async () => {
     // Register AdminJS adapter
     AdminJS.registerAdapter(AdminJSSequelize);
 
+    // Register custom components
+    const { ComponentLoader } = await import('adminjs');
+    const componentLoader = new ComponentLoader();
+    const dashboardComponent = componentLoader.add('Dashboard', path.join(__dirname, 'admin/components/dashboard.component.jsx'));
+    const settingsComponent = componentLoader.add('Settings', path.join(__dirname, 'admin/components/settings.component.jsx'));
+
     const app = express();
 
-    // Body parsing middleware
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
-
-    // API routes
-    app.use('/api', authRoutes);
+    // Serve static assets (logo, etc.)
+    app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
     // AdminJS configuration
     const adminJs = new AdminJS({
@@ -51,14 +56,31 @@ const start = async () => {
             SettingResource,
         ],
         rootPath: '/admin',
+        componentLoader,
         branding: {
             companyName: 'eCommerce Admin',
+            logo: '/public/logo.svg',
             softwareBrothers: false,
+        },
+        locale: {
+            language: 'en',
+            availableLanguages: ['en'],
         },
         dashboard: {
             handler: getDashboardHandler,
+            component: dashboardComponent,
+        },
+        pages: {
+            Settings: {
+                handler: getSettingsHandler,
+                component: settingsComponent,
+                icon: 'Settings',
+            },
         },
     });
+
+    // Bundle custom components (required for AdminJS v7)
+    await adminJs.watch();
 
     // Session store
     const sessionStore = new SequelizeStore({
@@ -88,6 +110,13 @@ const start = async () => {
 
     app.use(adminJs.options.rootPath, adminRouter);
 
+    // Body parsing middleware (MUST come after AdminJS router)
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+
+    // API routes
+    app.use('/api', authRoutes);
+
     // Sync database and start server
     try {
         await sequelize.authenticate();
@@ -97,7 +126,7 @@ const start = async () => {
         console.log('Database synced successfully.');
 
         // Create session table
-        sessionStore.sync();
+        await sessionStore.sync();
 
         app.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);

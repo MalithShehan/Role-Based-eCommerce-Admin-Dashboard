@@ -5,7 +5,7 @@ module.exports = {
     port: parseInt(process.env.DB_PORT, 10) || 5432,
     database: process.env.DB_NAME || 'ecommerce_admin',
     username: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || 'yourpassword',
+    password: process.env.DB_PASSWORD || 'Mss@1001',
     dialect: 'postgres',
     logging: process.env.NODE_ENV === 'development' ? console.log : false,
     pool: {

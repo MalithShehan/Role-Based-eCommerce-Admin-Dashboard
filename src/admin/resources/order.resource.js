@@ -11,6 +11,8 @@ const OrderResource = {
       },
       userId: {
         position: 2,
+        reference: 'users',
+        isVisible: { list: true, show: true, edit: true, filter: true },
       },
       totalAmount: {
         position: 3,
@@ -19,10 +21,10 @@ const OrderResource = {
         position: 4,
         availableValues: [
           { value: "pending", label: "Pending" },
-          { value: "Processing", label: "Processing" },
-          { value: "Shipped", label: "Shipped" },
-          { value: "Delivered", label: "Delivered" },
-          { value: "Cancelled", label: "Cancelled" },
+          { value: "processing", label: "Processing" },
+          { value: "shipped", label: "Shipped" },
+          { value: "delivered", label: "Delivered" },
+          { value: "cancelled", label: "Cancelled" },
         ],
       },
     },
