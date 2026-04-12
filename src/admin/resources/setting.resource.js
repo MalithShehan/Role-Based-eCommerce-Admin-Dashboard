@@ -1,6 +1,6 @@
-const { Setting } = require("../models");
+const { Setting } = require("../../models");
 
-const isAdmin = (currentAdmin) => currentAdmin && currentAdmin.role === "admin";
+const isAdmin = ({ currentAdmin }) => currentAdmin && currentAdmin.role === "admin";
 
 const SettingResource = {
   resource: Setting,
