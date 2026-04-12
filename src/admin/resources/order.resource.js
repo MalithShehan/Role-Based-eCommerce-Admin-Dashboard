@@ -1,4 +1,4 @@
-const { Order } = require("../models");
+const { Order } = require("../../models");
 
 const OrderResource = {
   resource: Order,
