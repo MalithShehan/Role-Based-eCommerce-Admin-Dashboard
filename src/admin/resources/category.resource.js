@@ -1,5 +1,4 @@
-const { act } = require("react");
-const { Category } = require("../models");
+const { Category } = require("../../models");
 
 const CategoryResource = {
   resource: Category,
