@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
     const OrderItem = sequelize.define('OrderItem', {
         id: {
             type: DataTypes.INTEGER,
-            primeryKey: true,
+            primaryKey: true,
             autoIncrement: true,
         },
         orderId: {
@@ -48,4 +48,4 @@ module.exports = (sequelize) => {
         timestamps: true,
     });
     return OrderItem;
-}
+};
