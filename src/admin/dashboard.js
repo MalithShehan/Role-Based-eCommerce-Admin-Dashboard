@@ -1,4 +1,3 @@
-const { raw } = require("express");
 const { User, Order, Product, Category } = require("../models");
 const { Sequelize } = require("sequelize");
 
@@ -7,15 +6,15 @@ const getDashboardHandler = async (req, res, context) => {
 
     try {
         if (currentAdmin.role === "admin") {
-            const tatalUsers = await User.count();
-            const tatalProducts = await Product.count();
-            const toatalCategories = await Category.count();
+            const totalUsers = await User.count();
+            const totalProducts = await Product.count();
+            const totalCategories = await Category.count();
             const totalOrders = await Order.count();
             const revenueResult = await Order.findOne({
                 attributes: [
                     [Sequelize.fn('COALESCE', Sequelize.fn('SUM', Sequelize.col('totalAmount')), 0), 'totalRevenue']
-                ]
-                raw
+                ],
+                raw: true,
             });
             const totalRevenue = parseFloat(revenueResult.totalRevenue) || 0;
 
@@ -32,19 +31,17 @@ const getDashboardHandler = async (req, res, context) => {
             });
 
             return {
-                message: 'Welcome Back, ${currentAdmin.name}!',
+                message: `Welcome Back, ${currentAdmin.name}!`,
                 role: 'admin',
                 stats: {
                     totalUsers,
-                    toatalProducts,
-                    toatalCategories,
+                    totalProducts,
+                    totalCategories,
                     totalOrders,
-                    totalRevenue :
-                    tottalRevenue.toFixed(2),
+                    totalRevenue: totalRevenue.toFixed(2),
                 },
                 ordersByStatus,
-                recentOrders :
-                recentOrders.map(o => ({
+                recentOrders: recentOrders.map(o => ({
                     id: o.id,
                     totalAmount: o.totalAmount,
                     status: o.status,
@@ -70,7 +67,7 @@ const getDashboardHandler = async (req, res, context) => {
             });
 
             return {
-                message: 'Welcome Back, ${currentAdmin.name}!',
+                message: `Welcome Back, ${currentAdmin.name}!`,
                 role: 'user',
                 stats: {
                     totalOrders: userOrders,
@@ -87,12 +84,12 @@ const getDashboardHandler = async (req, res, context) => {
     } catch (error) {
         console.error("Error fetching dashboard data:", error);
         return {
-            message: "Welcome Back, ${currentAdmin.name}!",
+            message: `Welcome Back, ${currentAdmin.name}!`,
             role: currentAdmin.role,
             stats: {},
             error: 'Failed to load dashboard data',
         };
     }
-        };
+};
 
 module.exports = { getDashboardHandler };
