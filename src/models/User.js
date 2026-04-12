@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
     {
       id: {
         type: DataTypes.INTEGER,
-        primeryKey: true,
+        primaryKey: true,
         autoIncrement: true,
       },
       name: {
@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
         },
       },
       password: {
-        typeof: DataTypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: { msg: "Password is required" },
@@ -66,5 +66,10 @@ module.exports = (sequelize) => {
   User.prototype.comparePassword = async function (candidatePassword) {
     return bcrypt.compare(candidatePassword, this.password);
   };
+
+  User.prototype.validPassword = async function (candidatePassword) {
+    return bcrypt.compare(candidatePassword, this.password);
+  };
+
   return User;
 };
