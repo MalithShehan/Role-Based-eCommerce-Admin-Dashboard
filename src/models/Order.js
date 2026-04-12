@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
     const Order = sequelize.define('Order', {
         id: {
             type: DataTypes.INTEGER,
-            primeryKey: true,
+            primaryKey: true,
             autoIncrement: true,
         },
         userId: {
@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
             },
         },
         status: {
-            type: DataTypes.ENUM('pending', 'processing', 'shipped', 'deliverd', 'cancelled'),
+            type: DataTypes.ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled'),
             allowNull: false,
             defaultValue: 'pending',
         },
