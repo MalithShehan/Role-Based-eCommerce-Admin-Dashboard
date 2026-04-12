@@ -25,6 +25,9 @@ const Setting = require('./Setting')(sequelize);
 User.hasMany(Order, { foreignKey: 'userId', as: 'orders' });
 Order.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
+Category.hasMany(Product, { foreignKey: 'categoryId', as: 'products' });
+Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'category' });
+
 Order.hasMany(OrderItem, { foreignKey: 'orderId', as: 'orderItems' });
 OrderItem.belongsTo(Order, { foreignKey: 'orderId', as: 'order' });
 
