@@ -42,6 +42,11 @@ const start = async () => {
 
     const app = express();
 
+    // Trust proxy (needed for secure cookies behind reverse proxy)
+    if (process.env.NODE_ENV === 'production') {
+        app.set('trust proxy', 1);
+    }
+
     // Serve static assets (logo, etc.)
     app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
@@ -80,7 +85,11 @@ const start = async () => {
     });
 
     // Bundle custom components (required for AdminJS v7)
-    await adminJs.watch();
+    if (process.env.NODE_ENV === 'production') {
+        await adminJs.initialize();
+    } else {
+        await adminJs.watch();
+    }
 
     // Session store
     const sessionStore = new SequelizeStore({
@@ -103,7 +112,7 @@ const start = async () => {
             secret: process.env.SESSION_SECRET || 'session-secret-key',
             cookie: {
                 httpOnly: true,
-                secure: false,
+                secure: process.env.NODE_ENV === 'production',
             },
         },
     );

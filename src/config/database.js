@@ -1,11 +1,6 @@
 require('dotenv').config();
 
-module.exports = {
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT, 10) || 5432,
-    database: process.env.DB_NAME || 'ecommerce_admin',
-    username: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || '',
+const config = {
     dialect: 'postgres',
     logging: false,
     pool: {
@@ -19,3 +14,21 @@ module.exports = {
         underscored: true,
     }
 };
+
+if (process.env.DATABASE_URL) {
+    config.url = process.env.DATABASE_URL;
+    config.dialectOptions = {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
+        },
+    };
+} else {
+    config.host = process.env.DB_HOST || 'localhost';
+    config.port = parseInt(process.env.DB_PORT, 10) || 5432;
+    config.database = process.env.DB_NAME || 'ecommerce_admin';
+    config.username = process.env.DB_USER || 'postgres';
+    config.password = process.env.DB_PASSWORD || '';
+}
+
+module.exports = config;
