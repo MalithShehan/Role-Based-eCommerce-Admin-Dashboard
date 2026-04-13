@@ -13,13 +13,13 @@ const { getDashboardHandler } = require('./admin/dashboard');
 const { getSettingsHandler } = require('./admin/settings');
 const { getProfileHandler, updateProfileHandler, deleteAccountHandler } = require('./admin/profile');
 
-// Resource configs
-const UserResource = require('./admin/resources/user.resource');
-const CategoryResource = require('./admin/resources/category.resource');
-const ProductResource = require('./admin/resources/product.resource');
-const OrderResource = require('./admin/resources/order.resource');
-const OrderItemResource = require('./admin/resources/orderItem.resource');
-const SettingResource = require('./admin/resources/setting.resource');
+// Resource config factories
+const createUserResource = require('./admin/resources/user.resource');
+const createCategoryResource = require('./admin/resources/category.resource');
+const createProductResource = require('./admin/resources/product.resource');
+const createOrderResource = require('./admin/resources/order.resource');
+const createOrderItemResource = require('./admin/resources/orderItem.resource');
+const createSettingResource = require('./admin/resources/setting.resource');
 
 // Auth routes
 const authRoutes = require('./routes/auth');
@@ -41,7 +41,17 @@ const start = async () => {
     const dashboardComponent = componentLoader.add('Dashboard', path.join(__dirname, 'admin/components/dashboard.component.jsx'));
     const settingsComponent = componentLoader.add('Settings', path.join(__dirname, 'admin/components/settings.component.jsx'));
     const profileComponent = componentLoader.add('Profile', path.join(__dirname, 'admin/components/profile.component.jsx'));
+    const customDeleteComponent = componentLoader.add('CustomDelete', path.join(__dirname, 'admin/components/custom-delete.component.jsx'));
+    const customBulkDeleteComponent = componentLoader.add('CustomBulkDelete', path.join(__dirname, 'admin/components/custom-bulk-delete.component.jsx'));
     componentLoader.override('SidebarPages', path.join(__dirname, 'admin/components/sidebar-pages.component.jsx'));
+
+    // Build resource configs with custom components
+    const UserResource = createUserResource(customDeleteComponent, customBulkDeleteComponent);
+    const CategoryResource = createCategoryResource(customDeleteComponent, customBulkDeleteComponent);
+    const ProductResource = createProductResource(customDeleteComponent, customBulkDeleteComponent);
+    const OrderResource = createOrderResource(customDeleteComponent, customBulkDeleteComponent);
+    const OrderItemResource = createOrderItemResource(customDeleteComponent, customBulkDeleteComponent);
+    const SettingResource = createSettingResource(customDeleteComponent, customBulkDeleteComponent);
 
     const app = express();
 

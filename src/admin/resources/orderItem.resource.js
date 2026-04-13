@@ -1,7 +1,7 @@
 const { OrderItem } = require("../../models/index.js");
 const { afterDeleteResequence } = require("../utils/resequence");
 
-const OrderItemResource = {
+module.exports = (deleteComponent, bulkDeleteComponent) => ({
   resource: OrderItem,
   options: {
     navigation: { name: "eCommerce", icon: "Receipt" },
@@ -71,14 +71,15 @@ const OrderItemResource = {
         isAccessible: ({ currentAdmin }) =>
           currentAdmin && currentAdmin.role === "admin",
         after: afterDeleteResequence,
+        component: deleteComponent,
+        showInDrawer: true,
       },
       bulkDelete: {
         isAccessible: ({ currentAdmin }) =>
           currentAdmin && currentAdmin.role === "admin",
         after: afterDeleteResequence,
+        component: bulkDeleteComponent,
       },
     },
   },
-};
-
-module.exports = OrderItemResource;
+});

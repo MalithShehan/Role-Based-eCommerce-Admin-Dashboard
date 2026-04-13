@@ -3,7 +3,7 @@ const { afterDeleteResequence } = require("../utils/resequence");
 
 const isAdmin = ({ currentAdmin }) => currentAdmin && currentAdmin.role === "admin";
 
-const SettingResource = {
+module.exports = (deleteComponent, bulkDeleteComponent) => ({
   resource: Setting,
   options: {
     navigation: { name: "Administration", icon: "Shield" },
@@ -48,16 +48,17 @@ const SettingResource = {
       delete: {
         isAccessible: isAdmin,
         after: afterDeleteResequence,
+        component: deleteComponent,
+        showInDrawer: true,
       },
       bulkDelete: {
         isAccessible: isAdmin,
         after: afterDeleteResequence,
+        component: bulkDeleteComponent,
       },
       new: {
         isAccessible: isAdmin,
       },
     },
   },
-};
-
-module.exports = SettingResource;
+});
