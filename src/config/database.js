@@ -15,15 +15,18 @@ const config = {
     }
 };
 
-// Render provides DATABASE_URL; use it in production
+// Railway/Render provides DATABASE_URL; use it in production
 if (process.env.DATABASE_URL) {
     config.url = process.env.DATABASE_URL;
-    config.dialectOptions = {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false,
-        },
-    };
+    // Only add SSL if not connecting to a private network DB (Railway internal)
+    if (process.env.DATABASE_URL.includes('railway.app') || process.env.DATABASE_URL.includes('render.com')) {
+        config.dialectOptions = {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false,
+            },
+        };
+    }
 } else {
     config.host = process.env.DB_HOST || 'localhost';
     config.port = parseInt(process.env.DB_PORT, 10) || 5432;
