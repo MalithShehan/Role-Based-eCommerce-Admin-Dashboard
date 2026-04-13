@@ -67,6 +67,7 @@ module.exports = (deleteComponent, bulkDeleteComponent) => ({
         after: afterDeleteResequence,
         component: deleteComponent,
         showInDrawer: true,
+        guard: '',
       },
       bulkDelete: {
         isAccessible: ({ currentAdmin }) =>
