@@ -65,6 +65,7 @@ const start = async () => {
         branding: {
             companyName: 'eCommerce Admin',
             logo: '/public/logo.svg',
+            favicon: '/public/logo.svg',
             softwareBrothers: false,
         },
         locale: {
