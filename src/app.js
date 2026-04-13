@@ -41,6 +41,7 @@ const start = async () => {
     const dashboardComponent = componentLoader.add('Dashboard', path.join(__dirname, 'admin/components/dashboard.component.jsx'));
     const settingsComponent = componentLoader.add('Settings', path.join(__dirname, 'admin/components/settings.component.jsx'));
     const profileComponent = componentLoader.add('Profile', path.join(__dirname, 'admin/components/profile.component.jsx'));
+    componentLoader.override('SidebarPages', path.join(__dirname, 'admin/components/sidebar-pages.component.jsx'));
 
     const app = express();
 
