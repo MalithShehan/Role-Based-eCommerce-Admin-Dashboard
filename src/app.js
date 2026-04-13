@@ -126,6 +126,9 @@ const start = async () => {
     // API routes
     app.use('/api', authRoutes);
 
+    // Redirect root to admin panel
+    app.get('/', (req, res) => res.redirect('/admin'));
+
     // Sync database and start server
     try {
         await sequelize.authenticate();
