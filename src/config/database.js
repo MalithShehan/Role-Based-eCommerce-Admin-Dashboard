@@ -1,8 +1,13 @@
 require('dotenv').config();
 
-const config = {
+module.exports = {
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT, 10) || 5432,
+    database: process.env.DB_NAME || 'ecommerce_admin',
+    username: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || '',
     dialect: 'postgres',
-    logging: process.env.NODE_ENV === 'development' ? console.log : false,
+    logging: false,
     pool: {
         max: 10,
         min: 0,
@@ -14,26 +19,3 @@ const config = {
         underscored: true,
     }
 };
-
-// Railway/Render provides DATABASE_URL; use it in production
-if (process.env.DATABASE_URL) {
-    config.url = process.env.DATABASE_URL;
-    // Add SSL for production unless connecting via Railway private network
-    const isPrivateNetwork = process.env.DATABASE_URL.includes('.railway.internal');
-    if (process.env.NODE_ENV === 'production' && !isPrivateNetwork) {
-        config.dialectOptions = {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false,
-            },
-        };
-    }
-} else {
-    config.host = process.env.DB_HOST || 'localhost';
-    config.port = parseInt(process.env.DB_PORT, 10) || 5432;
-    config.database = process.env.DB_NAME || 'ecommerce_admin';
-    config.username = process.env.DB_USER || 'postgres';
-    config.password = process.env.DB_PASSWORD || '';
-}
-
-module.exports = config;

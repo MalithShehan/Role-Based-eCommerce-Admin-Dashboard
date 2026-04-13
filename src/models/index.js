@@ -1,30 +1,19 @@
-const { Sequelize} = require('sequelize');
+const { Sequelize } = require('sequelize');
 const dbConfig = require('../config/database');
 
-let sequelize;
-if (dbConfig.url) {
-    sequelize = new Sequelize(dbConfig.url, {
+const sequelize = new Sequelize(
+    dbConfig.database,
+    dbConfig.username,
+    dbConfig.password,
+    {
+        host: dbConfig.host,
+        port: dbConfig.port,
         dialect: dbConfig.dialect,
         logging: dbConfig.logging,
         pool: dbConfig.pool,
         define: dbConfig.define,
-        dialectOptions: dbConfig.dialectOptions,
-    });
-} else {
-    sequelize = new Sequelize(
-        dbConfig.database,
-        dbConfig.username,
-        dbConfig.password,
-        {
-            host: dbConfig.host,
-            port: dbConfig.port,
-            dialect: dbConfig.dialect,
-            logging: dbConfig.logging,
-            pool: dbConfig.pool,
-            define: dbConfig.define,
-        }
-    );
-}
+    }
+);
 
 const User = require('./User')(sequelize);
 const Category = require('./Category')(sequelize);
