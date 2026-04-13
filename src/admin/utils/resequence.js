@@ -1,4 +1,4 @@
-const { sequelize } = require('../../models');
+const { sequelize } = require('../../models/index.js');
 
 /**
  * Resequences IDs for all tables after a delete operation.

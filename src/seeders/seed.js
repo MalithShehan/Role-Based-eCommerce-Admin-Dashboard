@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
-const { sequelize, User, Category, Product, Order, OrderItem, Setting } = require('../models');
+const { sequelize, User, Category, Product, Order, OrderItem, Setting } = require('../models/index.js');
 
 const seed = async () => {
     try {

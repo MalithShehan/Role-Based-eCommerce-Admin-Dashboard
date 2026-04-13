@@ -1,4 +1,4 @@
-const { Order } = require("../../models");
+const { Order } = require("../../models/index.js");
 const { afterDeleteResequence } = require("../utils/resequence");
 
 const OrderResource = {

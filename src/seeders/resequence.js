@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { sequelize } = require('../models');
+const { sequelize } = require('../models/index.js');
 
 /**
  * Re-sequences IDs for all tables to remove gaps after deletions.

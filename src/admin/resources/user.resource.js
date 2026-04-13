@@ -1,4 +1,4 @@
-const { User } = require("../../models");
+const { User } = require("../../models/index.js");
 const { afterDeleteResequence } = require("../utils/resequence");
 
 const isAdmin = ({ currentAdmin }) =>

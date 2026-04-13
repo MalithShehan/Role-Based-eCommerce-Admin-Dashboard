@@ -1,4 +1,4 @@
-const { Setting } = require('../models');
+const { Setting } = require('../models/index.js');
 
 /**
  * Handler for the custom Settings page.

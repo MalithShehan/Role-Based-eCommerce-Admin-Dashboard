@@ -1,4 +1,4 @@
-const { Setting } = require("../../models");
+const { Setting } = require("../../models/index.js");
 const { afterDeleteResequence } = require("../utils/resequence");
 
 const isAdmin = ({ currentAdmin }) => currentAdmin && currentAdmin.role === "admin";

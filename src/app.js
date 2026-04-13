@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 
 const path = require('path');
 
-const { sequelize, User } = require('./models');
+const { sequelize, User } = require('./models/index.js');
 const { authenticate } = require('./admin/auth');
 const { getDashboardHandler } = require('./admin/dashboard');
 const { getSettingsHandler } = require('./admin/settings');

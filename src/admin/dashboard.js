@@ -1,4 +1,4 @@
-const { User, Order, Product, Category } = require("../models");
+const { User, Order, Product, Category } = require("../models/index.js");
 const { Sequelize } = require("sequelize");
 
 const getDashboardHandler = async (req, res, context) => {
