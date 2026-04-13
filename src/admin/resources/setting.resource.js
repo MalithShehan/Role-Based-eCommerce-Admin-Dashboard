@@ -1,4 +1,5 @@
 const { Setting } = require("../../models");
+const { afterDeleteResequence } = require("../utils/resequence");
 
 const isAdmin = ({ currentAdmin }) => currentAdmin && currentAdmin.role === "admin";
 
@@ -46,6 +47,11 @@ const SettingResource = {
       },
       delete: {
         isAccessible: isAdmin,
+        after: afterDeleteResequence,
+      },
+      bulkDelete: {
+        isAccessible: isAdmin,
+        after: afterDeleteResequence,
       },
       new: {
         isAccessible: isAdmin,

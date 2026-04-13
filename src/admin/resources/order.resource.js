@@ -1,4 +1,5 @@
 const { Order } = require("../../models");
+const { afterDeleteResequence } = require("../utils/resequence");
 
 const OrderResource = {
   resource: Order,
@@ -63,6 +64,12 @@ const OrderResource = {
       delete: {
         isAccessible: ({ currentAdmin }) =>
           currentAdmin && currentAdmin.role === "admin",
+        after: afterDeleteResequence,
+      },
+      bulkDelete: {
+        isAccessible: ({ currentAdmin }) =>
+          currentAdmin && currentAdmin.role === "admin",
+        after: afterDeleteResequence,
       },
     },
   },

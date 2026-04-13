@@ -1,4 +1,5 @@
 const { User } = require("../../models");
+const { afterDeleteResequence } = require("../utils/resequence");
 
 const isAdmin = ({ currentAdmin }) =>
   currentAdmin && currentAdmin.role === "admin";
@@ -10,12 +11,14 @@ const UserResource = {
     isVisible: isAdmin,
     properties: {
       password: {
+        type: 'password',
         isVisible: {
           list: false,
           show: false,
-          edit: false,
+          edit: true,
           filter: false,
         },
+        position: 4,
       },
       role: {
         availableValues: [
@@ -37,7 +40,7 @@ const UserResource = {
     },
     listProperties: ["id", "name", "email", "role", "createdAt"],
     showProperties: ["id", "name", "email", "role", "createdAt", "updatedAt"],
-    editProperties: ["name", "email", "role"],
+    editProperties: ["name", "email", "password", "role"],
     filterProperties: ["name", "email", "role", "createdAt", "updatedAt"],
     actions: {
       list: {
@@ -51,9 +54,20 @@ const UserResource = {
       },
       edit: {
         isAccessible: isAdmin,
+        before: async (request) => {
+          if (request.payload && !request.payload.password) {
+            delete request.payload.password;
+          }
+          return request;
+        },
       },
       delete: {
         isAccessible: isAdmin,
+        after: afterDeleteResequence,
+      },
+      bulkDelete: {
+        isAccessible: isAdmin,
+        after: afterDeleteResequence,
       },
     },
   },
