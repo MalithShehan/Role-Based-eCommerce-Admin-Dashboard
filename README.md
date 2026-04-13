@@ -2,6 +2,17 @@
 
 A secure, role-based Admin Panel for a basic eCommerce backend using **Node.js**, **Express**, **AdminJS**, **Sequelize ORM**, and **PostgreSQL**. This project implements authentication, role-based access control, a custom dashboard, and a settings management page.
 
+## Live Demo
+
+**[https://role-based-ecommerce-admin-dashboard-fhim.onrender.com/admin](https://role-based-ecommerce-admin-dashboard-fhim.onrender.com/admin)**
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@example.com` | `admin123` |
+| User | `john@example.com` | `user123` |
+
+> **Note:** The app is hosted on Render's free tier — the first request may take ~30 seconds if the server has spun down due to inactivity.
+
 ---
 
 ## Tech Stack
@@ -205,9 +216,9 @@ npm run seed
 ```
 
 This creates sample data including:
-- **Admin account**: `admin@example.com` / `admin123`
-- **User accounts**: `john@example.com` / `user123`, `jane@example.com` / `user123`
-- 4 Categories, 8 Products, 5 Orders, 7 Order Items, 5 Settings
+- **Admin accounts**: `admin@example.com` / `admin123`, `sarah@example.com` / `admin123`
+- **User accounts**: `john@example.com` / `user123`, `jane@example.com` / `user123`, and 5 more
+- 8 Categories, 41 Products, 18 Orders, 25 Order Items, 10 Settings
 
 ### 6. Start the server
 
