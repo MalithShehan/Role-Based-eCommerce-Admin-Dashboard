@@ -11,6 +11,7 @@ const { sequelize, User } = require('./models/index.js');
 const { authenticate } = require('./admin/auth');
 const { getDashboardHandler } = require('./admin/dashboard');
 const { getSettingsHandler } = require('./admin/settings');
+const { getProfileHandler, updateProfileHandler, deleteAccountHandler } = require('./admin/profile');
 
 // Resource configs
 const UserResource = require('./admin/resources/user.resource');
@@ -39,6 +40,7 @@ const start = async () => {
     const componentLoader = new ComponentLoader();
     const dashboardComponent = componentLoader.add('Dashboard', path.join(__dirname, 'admin/components/dashboard.component.jsx'));
     const settingsComponent = componentLoader.add('Settings', path.join(__dirname, 'admin/components/settings.component.jsx'));
+    const profileComponent = componentLoader.add('Profile', path.join(__dirname, 'admin/components/profile.component.jsx'));
 
     const app = express();
 
@@ -81,6 +83,22 @@ const start = async () => {
                 handler: getSettingsHandler,
                 component: settingsComponent,
                 icon: 'Settings',
+            },
+            MyProfile: {
+                handler: async (request, response, context) => {
+                    const body = request.fields || request.body || {};
+                    const action = body.action || (request.query && request.query.action);
+                    if (action === 'update') {
+                        request.body = body;
+                        return updateProfileHandler(request, response, context);
+                    }
+                    if (action === 'delete') {
+                        return deleteAccountHandler(request, response, context);
+                    }
+                    return getProfileHandler(request, response, context);
+                },
+                component: profileComponent,
+                icon: 'User',
             },
         },
     });
