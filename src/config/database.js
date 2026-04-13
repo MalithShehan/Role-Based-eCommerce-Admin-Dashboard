@@ -18,8 +18,9 @@ const config = {
 // Railway/Render provides DATABASE_URL; use it in production
 if (process.env.DATABASE_URL) {
     config.url = process.env.DATABASE_URL;
-    // Only add SSL if not connecting to a private network DB (Railway internal)
-    if (process.env.DATABASE_URL.includes('railway.app') || process.env.DATABASE_URL.includes('render.com')) {
+    // Add SSL for production unless connecting via Railway private network
+    const isPrivateNetwork = process.env.DATABASE_URL.includes('.railway.internal');
+    if (process.env.NODE_ENV === 'production' && !isPrivateNetwork) {
         config.dialectOptions = {
             ssl: {
                 require: true,
