@@ -3,7 +3,7 @@ services:
     runtime: node
     name: ecommerce-admin-dashboard
     plan: free
-    buildCommand: npm install
+    buildCommand: rm -rf .adminjs && npm install
     startCommand: node src/app.js
     envVars:
       - key: NODE_ENV
