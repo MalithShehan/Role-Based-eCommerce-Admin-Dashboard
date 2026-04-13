@@ -2,6 +2,21 @@
 
 A secure, role-based Admin Panel for a basic eCommerce backend using **Node.js**, **Express**, **AdminJS**, **Sequelize ORM**, and **PostgreSQL**. This project implements authentication, role-based access control, a custom dashboard, and a settings management page.
 
+---
+
+## Recent Updates (2026)
+
+- **Delete/Bulk Delete Auto-Refresh:**
+  - All tables now use custom delete and bulk delete components. After deleting, the table auto-refreshes and row numbers are recalculated to remain sequential (1, 2, 3...).
+  - Applies to all resources (Users, Categories, Products, Orders, OrderItems, Settings).
+  - No more browser confirm dialog — confirmation is handled in a drawer UI.
+- **ID Resequencing:**
+  - After any delete, all IDs are renumbered sequentially (no gaps) and all foreign keys are updated safely.
+- **Production Deploy Fix:**
+  - Render deployment now always bundles the latest AdminJS components (no stale UI after deploy).
+
+---
+
 ## Live Demo
 
 **[https://role-based-ecommerce-admin-dashboard-fhim.onrender.com/admin](https://role-based-ecommerce-admin-dashboard-fhim.onrender.com/admin)**
@@ -243,6 +258,19 @@ The server will start at **http://localhost:3000** and AdminJS will be available
 1. Open **http://localhost:3000/admin**
 2. Login with `admin@example.com` / `admin123` for full admin access
 3. Or login with `john@example.com` / `user123` for limited user access
+
+### Reseeding the Production Database (Render)
+
+If you need to restore all sample data (including deleted users like John Doe) on the deployed site:
+
+1. Go to your Render Dashboard → select your service → open the **Shell** tab
+2. Run:
+  ```
+  node src/seeders/seed.js
+  ```
+3. This will drop and recreate all tables, restoring all demo users, products, orders, etc.
+
+---
 
 ### API Login Endpoint
 
