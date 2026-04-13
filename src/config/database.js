@@ -15,7 +15,7 @@ const config = {
     }
 };
 
-if (process.env.DATABASE_URL) {
+if (process.env.DATABASE_URL && process.env.DATABASE_URL.startsWith('postgres')) {
     config.url = process.env.DATABASE_URL;
     config.dialectOptions = {
         ssl: {
